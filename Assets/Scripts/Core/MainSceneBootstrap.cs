@@ -15,7 +15,10 @@ public class MainSceneBootstrap : MonoBehaviour
         MobileJoystick joystick = CreateJoystick();
 
         if (player != null)
+        {
             player.SetJoystick(joystick);
+            CreatePlayerVisual();
+        }
     }
 
     private void EnsureEventSystem()
@@ -26,6 +29,24 @@ public class MainSceneBootstrap : MonoBehaviour
         GameObject eventSystem = new GameObject("EventSystem");
         eventSystem.AddComponent<EventSystem>();
         eventSystem.AddComponent<StandaloneInputModule>();
+    }
+
+    private void CreatePlayerVisual()
+    {
+        if (player == null || player.transform.childCount > 0)
+            return;
+
+        GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        visual.name = "Player Visual";
+        visual.transform.SetParent(player.transform, false);
+        visual.transform.localPosition = Vector3.zero;
+        visual.transform.localScale = Vector3.one;
+
+        Collider visualCollider = visual.GetComponent<Collider>();
+        if (visualCollider != null)
+            Destroy(visualCollider);
+
+        player.SetVisual(visual.transform);
     }
 
     private MobileJoystick CreateJoystick()
