@@ -7,15 +7,14 @@ public class SellZone : MonoBehaviour
 
     public int Sell(PlayerInteractor player)
     {
-        if (player == null || player.CarriedItems <= 0 || GameManager.Instance == null)
+        if (player == null || player.CarriedItems <= 0 || GameManager.Instance == null || GameManager.Instance.Money == null)
             return 0;
 
-        int items = player.RemoveAllItems();
-        int earnings = items * productValue;
+        int earnings = player.GetInventoryValue();
+        if (earnings <= 0) return 0;
 
-        if (GameManager.Instance.Money != null)
-            GameManager.Instance.Money.Add(earnings);
-
+        player.RemoveAllItems();
+        GameManager.Instance.Money.Add(earnings);
         return earnings;
     }
 }
