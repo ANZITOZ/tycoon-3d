@@ -16,6 +16,9 @@ public class MobileJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (background == null)
             background = transform as RectTransform;
 
+        if (handle == null && transform.childCount > 0)
+            handle = transform.GetChild(0) as RectTransform;
+
         canvas = GetComponentInParent<Canvas>();
     }
 
@@ -44,6 +47,7 @@ public class MobileJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         }
 
         Vector2 radius = background.rect.size * 0.5f;
+
         Vector2 normalized = new Vector2(
             radius.x > 0 ? localPoint.x / radius.x : 0,
             radius.y > 0 ? localPoint.y / radius.y : 0);
@@ -56,6 +60,14 @@ public class MobileJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     }
 
     public void OnPointerUp(PointerEventData eventData)
+    {
+        InputVector = Vector2.zero;
+
+        if (handle != null)
+            handle.anchoredPosition = Vector2.zero;
+    }
+
+    public void ResetInput()
     {
         InputVector = Vector2.zero;
 
