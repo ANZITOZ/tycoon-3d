@@ -22,6 +22,8 @@ public class MainSceneBootstrap : MonoBehaviour
 
         CreateProductionMachine();
         CreateInventoryUI();
+        CreateMoneyUI();
+        CreateSellZone();
     }
 
     private void EnsureEventSystem()
@@ -117,6 +119,68 @@ public class MainSceneBootstrap : MonoBehaviour
         label.alignment = TextAnchor.MiddleCenter;
 
         buttonObject.GetComponent<InteractionButtonUI>();
+    }
+
+    private void CreateMoneyUI()
+    {
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+
+        GameObject moneyObject = new GameObject("Money UI", typeof(RectTransform), typeof(Text), typeof(MoneyUI));
+        RectTransform rect = moneyObject.GetComponent<RectTransform>();
+        rect.SetParent(canvas.transform, false);
+        rect.anchorMin = new Vector2(0f, 1f);
+        rect.anchorMax = new Vector2(0f, 1f);
+        rect.anchoredPosition = new Vector2(120f, -60f);
+        rect.sizeDelta = new Vector2(220f, 55f);
+
+        Text text = moneyObject.GetComponent<Text>();
+        text.text = "MONEY";
+        text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        text.fontSize = 28;
+        text.alignment = TextAnchor.MiddleCenter;
+    }
+
+    private void CreateSellZone()
+    {
+        if (FindFirstObjectByType<SellZone>() != null)
+            return;
+
+        GameObject zone = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        zone.name = "Sell Zone";
+        zone.transform.position = new Vector3(-3f, 0.25f, 2f);
+        zone.transform.localScale = new Vector3(2.5f, 0.5f, 2.5f);
+
+        zone.AddComponent<SellZone>();
+        zone.AddComponent<SellZoneInteraction>();
+
+        GameObject button = new GameObject("Sell Button", typeof(RectTransform), typeof(Image), typeof(Button), typeof(SellButtonUI));
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+
+        RectTransform buttonRect = button.GetComponent<RectTransform>();
+        buttonRect.SetParent(canvas.transform, false);
+        buttonRect.anchorMin = new Vector2(1f, 0.5f);
+        buttonRect.anchorMax = new Vector2(1f, 0.5f);
+        buttonRect.anchoredPosition = new Vector2(-130f, -100f);
+        buttonRect.sizeDelta = new Vector2(220f, 80f);
+
+        Image image = button.GetComponent<Image>();
+        image.color = new Color(0.15f, 0.45f, 0.8f, 0.95f);
+
+        GameObject labelObject = new GameObject("Label", typeof(RectTransform), typeof(Text));
+        RectTransform labelRect = labelObject.GetComponent<RectTransform>();
+        labelRect.SetParent(buttonRect, false);
+        labelRect.anchorMin = Vector2.zero;
+        labelRect.anchorMax = Vector2.one;
+        labelRect.offsetMin = Vector2.zero;
+        labelRect.offsetMax = Vector2.zero;
+
+        Text label = labelObject.GetComponent<Text>();
+        label.text = "VENDER";
+        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.fontSize = 24;
+        label.alignment = TextAnchor.MiddleCenter;
     }
 
     private MobileJoystick CreateJoystick()
