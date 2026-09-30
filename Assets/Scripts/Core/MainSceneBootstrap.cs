@@ -21,6 +21,7 @@ public class MainSceneBootstrap : MonoBehaviour
         }
 
         CreateProductionMachine();
+        CreateInventoryUI();
     }
 
     private void EnsureEventSystem()
@@ -61,6 +62,61 @@ public class MainSceneBootstrap : MonoBehaviour
         ProductionMachine machine = machineObject.AddComponent<ProductionMachine>();
         machineObject.AddComponent<ProductionMachineVisual>();
         machineObject.AddComponent<ProductionMachineInteraction>();
+    }
+
+    private void CreateInventoryUI()
+    {
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+
+        if (canvas == null)
+        {
+            GameObject canvasObject = new GameObject("Mobile UI", typeof(RectTransform));
+            canvas = canvasObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasObject.AddComponent<CanvasScaler>();
+            canvasObject.AddComponent<GraphicRaycaster>();
+        }
+
+        GameObject inventoryObject = new GameObject("Inventory UI", typeof(RectTransform), typeof(Text), typeof(InventoryUI));
+        RectTransform inventoryRect = inventoryObject.GetComponent<RectTransform>();
+        inventoryRect.SetParent(canvas.transform, false);
+        inventoryRect.anchorMin = new Vector2(1f, 1f);
+        inventoryRect.anchorMax = new Vector2(1f, 1f);
+        inventoryRect.anchoredPosition = new Vector2(-120f, -60f);
+        inventoryRect.sizeDelta = new Vector2(180f, 55f);
+
+        Text inventoryText = inventoryObject.GetComponent<Text>();
+        inventoryText.text = "📦 0/10";
+        inventoryText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        inventoryText.fontSize = 28;
+        inventoryText.alignment = TextAnchor.MiddleCenter;
+
+        GameObject buttonObject = new GameObject("Collect Button", typeof(RectTransform), typeof(Image), typeof(Button), typeof(InteractionButtonUI));
+        RectTransform buttonRect = buttonObject.GetComponent<RectTransform>();
+        buttonRect.SetParent(canvas.transform, false);
+        buttonRect.anchorMin = new Vector2(1f, 0.5f);
+        buttonRect.anchorMax = new Vector2(1f, 0.5f);
+        buttonRect.anchoredPosition = new Vector2(-130f, 0f);
+        buttonRect.sizeDelta = new Vector2(220f, 80f);
+
+        Image buttonImage = buttonObject.GetComponent<Image>();
+        buttonImage.color = new Color(0.1f, 0.65f, 0.25f, 0.95f);
+
+        GameObject labelObject = new GameObject("Label", typeof(RectTransform), typeof(Text));
+        RectTransform labelRect = labelObject.GetComponent<RectTransform>();
+        labelRect.SetParent(buttonRect, false);
+        labelRect.anchorMin = Vector2.zero;
+        labelRect.anchorMax = Vector2.one;
+        labelRect.offsetMin = Vector2.zero;
+        labelRect.offsetMax = Vector2.zero;
+
+        Text label = labelObject.GetComponent<Text>();
+        label.text = "COLETAR";
+        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.fontSize = 24;
+        label.alignment = TextAnchor.MiddleCenter;
+
+        buttonObject.GetComponent<InteractionButtonUI>();
     }
 
     private MobileJoystick CreateJoystick()
