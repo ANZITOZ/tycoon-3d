@@ -19,6 +19,8 @@ public class MainSceneBootstrap : MonoBehaviour
             player.SetJoystick(joystick);
             CreatePlayerVisual();
         }
+
+        CreateProductionMachine();
     }
 
     private void EnsureEventSystem()
@@ -40,13 +42,25 @@ public class MainSceneBootstrap : MonoBehaviour
         visual.name = "Player Visual";
         visual.transform.SetParent(player.transform, false);
         visual.transform.localPosition = Vector3.zero;
-        visual.transform.localScale = Vector3.one;
 
         Collider visualCollider = visual.GetComponent<Collider>();
         if (visualCollider != null)
             Destroy(visualCollider);
 
         player.SetVisual(visual.transform);
+    }
+
+    private void CreateProductionMachine()
+    {
+        if (FindFirstObjectByType<ProductionMachine>() != null)
+            return;
+
+        GameObject machineObject = new GameObject("Production Machine");
+        machineObject.transform.position = new Vector3(3f, 1f, 2f);
+
+        ProductionMachine machine = machineObject.AddComponent<ProductionMachine>();
+        machineObject.AddComponent<ProductionMachineVisual>();
+        machineObject.AddComponent<ProductionMachineInteraction>();
     }
 
     private MobileJoystick CreateJoystick()
