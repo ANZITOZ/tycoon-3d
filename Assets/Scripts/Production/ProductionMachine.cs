@@ -29,6 +29,13 @@ public class ProductionMachine : MonoBehaviour
 
     private float productionTimer;
 
+    public void Configure(float interval, int storage, int value)
+    {
+        productionInterval = Mathf.Max(0.1f, interval);
+        maxStorage = Mathf.Max(1, storage);
+        productValue = Mathf.Max(1, value);
+    }
+
     private void Update()
     {
         if (IsFull)
