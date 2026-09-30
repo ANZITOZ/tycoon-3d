@@ -55,10 +55,12 @@ public class BuildingPlacementSystem : MonoBehaviour
     public void ConfirmPlacement()
     {
         if (!placing || selectedDefinition == null || !validPosition) return;
+
         GameObject machineObject = new GameObject(selectedDefinition.machineName);
         machineObject.transform.position = lastPosition;
         ProductionMachine machine = machineObject.AddComponent<ProductionMachine>();
         machine.Configure(selectedDefinition.productionTime, 5, selectedDefinition.productValue);
+        machine.ConfigureChain(selectedDefinition.inputName, selectedDefinition.outputName, 1, 1, selectedDefinition.productValue);
         machineObject.AddComponent<ProductionMachineVisual>();
         machineObject.AddComponent<ProductionMachineInteraction>();
         CancelPlacement();
