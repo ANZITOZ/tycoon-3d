@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Tycoon/Machine Definition")]
 public class MachineDefinition : ScriptableObject
 {
+    public string machineId = "machine";
     public string machineName = "Machine";
     public string inputName = "None";
     public string outputName = "Product";
