@@ -8,9 +8,9 @@ Assets/
 - Scripts/Player/ — player movement and interaction
 - Scripts/Camera/ — isometric camera
 - Scripts/Economy/ — money, prices and transactions
-- Scripts/Production/ — machines and production cycles
+- Scripts/Production/ — machines, production cycles and production chains
 - Scripts/Inventory/ — items and storage
-- Scripts/World/ — terrain and unlockable areas
+- Scripts/World/ — terrain, unlockable areas and expansion
 - Scripts/UI/ — HUD, buttons and mobile controls
 - Scripts/Save/ — save/load
 - Prefabs/Player/ — player prefabs
@@ -21,16 +21,22 @@ Assets/
 - Audio/ — music and sound effects
 - Resources/ — runtime resources when required
 
-ProjectSettings/ will be added when the Unity project is initialized.
-
 ## Build order
-1. Core data and game state
+
+1. Core game state
 2. Player + joystick
 3. Isometric camera
-4. Production machine
-5. Collection
-6. Selling/economy
-7. Upgrades
+4. Basic production
+5. Collection + inventory
+6. Selling + economy
+7. Machine upgrades
 8. Land unlocking
-9. Save system
-10. UI polish and mobile optimization
+9. Multiple machine types
+10. Production chains
+11. Level-based unlocks
+12. Save system
+13. UI polish and mobile optimization
+
+## Design principle
+
+The game should grow from a simple one-machine loop into a network of machines and resources. New areas should introduce meaningful production options rather than only increasing map size.
