@@ -73,4 +73,9 @@ public class PlayerController : MonoBehaviour
     {
         joystick = newJoystick;
     }
+
+    public void SetVisual(Transform newVisual)
+    {
+        visual = newVisual;
+    }
 }
