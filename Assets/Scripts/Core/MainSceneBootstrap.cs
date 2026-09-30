@@ -25,6 +25,7 @@ public class MainSceneBootstrap : MonoBehaviour
         CreateMoneyUI();
         CreateSellZone();
         CreateUpgradeUI();
+        CreateBuildMenuUI();
     }
 
     private void EnsureEventSystem()
@@ -219,6 +220,28 @@ public class MainSceneBootstrap : MonoBehaviour
         label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         label.fontSize = 22;
         label.alignment = TextAnchor.MiddleCenter;
+    }
+
+
+    private void CreateBuildMenuUI()
+    {
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+
+        if (FindFirstObjectByType<BuildMenuUI>() != null)
+            return;
+
+        GameObject menuObject = new GameObject(
+            "Build Menu UI",
+            typeof(RectTransform),
+            typeof(BuildMenuUI));
+
+        RectTransform rect = menuObject.GetComponent<RectTransform>();
+        rect.SetParent(canvas.transform, false);
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
     }
 
     private MobileJoystick CreateJoystick()
