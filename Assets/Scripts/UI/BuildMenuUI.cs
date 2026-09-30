@@ -23,6 +23,9 @@ public class BuildMenuUI : MonoBehaviour
 
     private void Update()
     {
+        if (machineButtons.Count == 0 && panel != null)
+            CreateMachineButtons();
+
         Refresh();
     }
 
