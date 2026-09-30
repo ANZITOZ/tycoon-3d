@@ -24,6 +24,7 @@ public class MainSceneBootstrap : MonoBehaviour
         CreateInventoryUI();
         CreateMoneyUI();
         CreateSellZone();
+        CreateUpgradeUI();
     }
 
     private void EnsureEventSystem()
@@ -180,6 +181,43 @@ public class MainSceneBootstrap : MonoBehaviour
         label.text = "VENDER";
         label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         label.fontSize = 24;
+        label.alignment = TextAnchor.MiddleCenter;
+    }
+
+    private void CreateUpgradeUI()
+    {
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+
+        GameObject button = new GameObject(
+            "Upgrade Button",
+            typeof(RectTransform),
+            typeof(Image),
+            typeof(Button),
+            typeof(MachineUpgradeUI));
+
+        RectTransform rect = button.GetComponent<RectTransform>();
+        rect.SetParent(canvas.transform, false);
+        rect.anchorMin = new Vector2(1f, 0f);
+        rect.anchorMax = new Vector2(1f, 0f);
+        rect.anchoredPosition = new Vector2(-130f, 135f);
+        rect.sizeDelta = new Vector2(220f, 70f);
+
+        Image image = button.GetComponent<Image>();
+        image.color = new Color(0.75f, 0.5f, 0.1f, 0.95f);
+
+        GameObject labelObject = new GameObject("Label", typeof(RectTransform), typeof(Text));
+        RectTransform labelRect = labelObject.GetComponent<RectTransform>();
+        labelRect.SetParent(rect, false);
+        labelRect.anchorMin = Vector2.zero;
+        labelRect.anchorMax = Vector2.one;
+        labelRect.offsetMin = Vector2.zero;
+        labelRect.offsetMax = Vector2.zero;
+
+        Text label = labelObject.GetComponent<Text>();
+        label.text = "UPGRADE";
+        label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        label.fontSize = 22;
         label.alignment = TextAnchor.MiddleCenter;
     }
 
